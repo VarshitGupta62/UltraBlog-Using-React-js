@@ -71,7 +71,7 @@ export class DatabaseService{
 
         try {
 
-            return this.bucket.getFilePreview(
+            return await this.bucket.getFilePreview(
                 conf.appwriteBucketId,
                 fileId
             )
@@ -82,6 +82,20 @@ export class DatabaseService{
             
         }
 
+    }
+
+    async getPost(anyData){
+        try {
+
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseId, 
+                conf.appwriteCollectionId, 
+                anyData
+            )
+            
+        } catch (error) {
+            console.log( "Error one post: ", error);
+        }
     }
 
 }

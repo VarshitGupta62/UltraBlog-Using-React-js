@@ -16,10 +16,10 @@ function Routers() {
               <Route path='/addpost' element={<PostForm/>} />
               <Route path='/allpost' element={<AllPost/>} />
               <Route path='/post/:id' element={<Post/>} />
+              <Route path='/edit/:eid' element={<PostForm/>} />
           </Route>
           <Route path='/login' element={<Login/> } />
           <Route path='/signup' element={ <SignUp/>} />
-          <Route path='/logout' element={<LogoutBtn/>} />
       </Routes>
       </BrowserRouter> 
      </>

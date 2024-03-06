@@ -1,8 +1,42 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useParams , useNavigate } from 'react-router-dom'
 import { Button } from '../components'
+import { useEffect , useState } from 'react';
+import databaseService from '../appwrite/database';
 
 function Post() {
+
+    const { id } = useParams();
+    const[post , setPost] = useState(null);
+    let navigate = useNavigate();
+    
+    useEffect(() => {
+        if (id) {
+
+            databaseService.getPost(id).then((data) => {
+                if (data) {
+                    setPost(data);
+                    console.log("Data : ",  post);
+                }
+                else{
+                    navigate("/")
+                    console.log( "No such post found!");
+                }
+            })
+            
+        }
+        else{
+
+            navigate("/")
+
+        }
+    }, [])
+
+    const deletePost = () => {
+        alert(`You clicked the Delete button! :: id : ${id}`);
+    }
+
+
   return (
      <>
      <div className="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
@@ -44,11 +78,14 @@ function Post() {
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">this is title</h5>
                     </Link>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">this is contnet</p>
+                    <Link to={`/edit/${id}`} >
                     <Button
                     name='Edit'
                     buttonClass='text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
                     />
+                    </Link>
                     <Button
+                    onClick = {deletePost}
                     name='Delete'
                     buttonClass='text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900'
                     />
