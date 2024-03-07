@@ -17,7 +17,7 @@ function PostCard({ $id , title, content , image}) {
 
     fetchImage();
   }, [image]);
-  console.log(imageUrl);
+  // console.log(imageUrl);
   return (
      <>
      <Link to={`/post/${$id}`} >

@@ -7,7 +7,7 @@ import databaseService from '../appwrite/database';
 function Post() {
 
     const { id } = useParams();
-    const[post , setPost] = useState(null);
+    const[post , setPost] = useState([]);
     let navigate = useNavigate();
     
     useEffect(() => {
@@ -15,8 +15,10 @@ function Post() {
 
             databaseService.getPost(id).then((data) => {
                 if (data) {
+                    // console.log(data);
                     setPost(data);
-                    console.log("Data : ",  post);
+                    // console.log("Post data : ",  data);
+                    // console.log("image " , databaseService.fileViewer(data.image));
                 }
                 else{
                     navigate("/")
@@ -32,6 +34,20 @@ function Post() {
         }
     }, [])
 
+    const [imageUrl, setImageUrl] = React.useState(null);
+    React.useEffect(() => {
+      const fetchImage = async () => {
+        try {
+          const filePreview = await databaseService.fileViewer(post.image);
+          setImageUrl(filePreview);
+        } catch (error) {
+          console.error('Error fetching image:', error);
+        }
+      };
+  
+      fetchImage();
+    }, [post.image]);
+
     const deletePost = () => {
         alert(`You clicked the Delete button! :: id : ${id}`);
     }
@@ -45,8 +61,8 @@ function Post() {
                 <ol className="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
                 <li className="inline-flex items-center">
                     <a href="#" className="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
-                    <svg className="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
-                        Home
+                    <svg className="flex-shrink-0 mr-4 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                        All Post
                     </a>
                 </li>
                 <li>
@@ -70,14 +86,14 @@ function Post() {
             {/* ----------------------------- Start Card Component -------------------- */}
             <div className="">
                 <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    {/* <Link to="#">
-                    <img className="text-white rounded-t-lg" src={databaseService.fileViewer("65e731ebca861a50c9eb")} alt="Image not found" />
-                    </Link> */}
+                    <Link to="#">
+                    <img style={{height:"350px" ,width:"450px"}} className="text-white rounded-t-lg" src={imageUrl} alt="Image not found" />
+                    </Link>
                     <div className="p-5">
                     <Link >
-                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">this is title</h5>
+                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{post.title}</h5>
                     </Link>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">this is contnet</p>
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.content}</p>
                     <Link to={`/edit/${id}`} >
                     <Button
                     name='Edit'
