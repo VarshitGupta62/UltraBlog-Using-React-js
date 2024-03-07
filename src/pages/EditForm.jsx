@@ -3,8 +3,9 @@ import { Button , Input , Select } from '../components'
 import { useEffect , useState } from 'react';
 import databaseService from '../appwrite/database';
 import { useForm } from 'react-hook-form'
+import React from 'react';
 
-function EditForm({toggleModal}) {
+function EditForm({toggleModal , post}) {
     const {register, handleSubmit , watch, setValue } = useForm({
         defaultValues:{
           title: "",
@@ -13,6 +14,56 @@ function EditForm({toggleModal}) {
           status:""
         }
       })
+    //   console.log(post);
+      console.log(post.image);
+      useEffect(() => {
+        setValue("title", post.title);  
+        setValue("content", post.content);
+        setValue("status", post.status);
+    }, [post.title, setValue]);
+
+    const slugTransform = React.useCallback((value) => {
+        if(value && typeof value === "string") 
+        return value
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
+        .replace(/\s/g, "-");
+    
+    
+        return "";
+        }, [])
+    
+        React.useEffect(() => {
+    
+          const watching = watch((value , { name }) => {
+            if (name === 'title') {
+    
+              setValue( "slug",slugTransform(value.title))
+              
+            }
+          })
+    
+          return () => watching.unsubscribe(); 
+        }, [  watch , slugTransform , setValue]);
+
+        const [imageUrl, setImageUrl] = React.useState(null);
+        React.useEffect(() => {
+            const fetchImage = async () => {
+            try {
+                const filePreview = await databaseService.fileViewer(post.image);
+                setImageUrl(filePreview);
+                // setValue("image" , imageUrl);
+            } catch (error) {
+                console.error('Error fetching image:', error);
+            }
+            };
+
+            fetchImage();
+        }, [post.image , setValue]);
+        console.log(imageUrl);
+
+
   return (
      <>
          <div id="crud-modal" className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
@@ -54,6 +105,7 @@ function EditForm({toggleModal}) {
                             <Input
                                 label= "Title"
                                 type= "text"
+                                // data={setValue.title}
                                 placeholder="Title"
                                 inputClass="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 {...register( 'title',{ required: true})}
@@ -65,10 +117,10 @@ function EditForm({toggleModal}) {
                                 type= "text"
                                 placeholder="Slug"
                                 inputClass="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                {...register('slug' ,{ required: true})}
-                                // onInput={(e) => {
-                                //   "slug" , slugTransform(e.currentTarget.value)
-                                // }}
+                                {...register("slug" ,{ required: true})}
+                                onChange={(e) => {
+                                    setValue("slug", slugTransform(e.target.value));
+                                }}
                             />
                         </div>
                         <div class="col-span-2 sm:col-span-1">

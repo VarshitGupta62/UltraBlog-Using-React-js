@@ -122,6 +122,7 @@ function Post() {
             {isOpen && (
                  <EditForm
                  toggleModal={toggleModal}
+                 post={post}
                  />
             )}
             {/* -------------------------- end edit form----------------------------- */}
