@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter , Routes , Route } from 'react-router-dom';
-import { Login , SignUp , LogoutBtn , PostForm  } from '../components';
+import { Login , SignUp , PostForm , EditForm  } from '../components';
 import  AllPost  from '../pages/AllPost'
 import  Home  from '../pages/Home'
 import Post from '../pages/Post';
@@ -16,7 +16,7 @@ function Routers() {
               <Route path='/addpost' element={<PostForm/>} />
               <Route path='/allpost' element={<AllPost/>} />
               <Route path='/post/:id' element={<Post/>} />
-              <Route path='/edit/:eid' element={<PostForm/>} />
+              <Route path='/edit/:eid' element={<EditForm/>} />
           </Route>
           <Route path='/login' element={<Login/> } />
           <Route path='/signup' element={ <SignUp/>} />

@@ -3,6 +3,7 @@ import { Link , useParams , useNavigate } from 'react-router-dom'
 import { Button } from '../components'
 import { useEffect , useState } from 'react';
 import databaseService from '../appwrite/database';
+import EditForm from './EditForm';
 
 function Post() {
 
@@ -12,7 +13,6 @@ function Post() {
     
     useEffect(() => {
         if (id) {
-
             databaseService.getPost(id).then((data) => {
                 if (data) {
                     // console.log(data);
@@ -25,12 +25,9 @@ function Post() {
                     console.log( "No such post found!");
                 }
             })
-            
         }
         else{
-
             navigate("/")
-
         }
     }, [])
 
@@ -44,13 +41,21 @@ function Post() {
           console.error('Error fetching image:', error);
         }
       };
-  
-      fetchImage();
+      if (post.image) {
+        fetchImage(); 
+      }
     }, [post.image]);
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsOpen(!isOpen);
+    };
 
     const deletePost = () => {
         alert(`You clicked the Delete button! :: id : ${id}`);
     }
+
 
 
   return (
@@ -94,21 +99,32 @@ function Post() {
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{post.title}</h5>
                     </Link>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.content}</p>
-                    <Link to={`/edit/${id}`} >
+                    {/* <Link to={`/edit/${id}`} > */}
                     <Button
                     name='Edit'
-                    buttonClass='text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
+                    onClick={toggleModal}
+                    buttonClass=' text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'
+                    svg={<svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>}
                     />
-                    </Link>
+                    {/* </Link> */}
                     <Button
                     onClick = {deletePost}
                     name='Delete'
+                    svg={<svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>}
                     buttonClass='text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900'
                     />
                     </div>
                 </div>
             </div>
             {/* -----------------------------End Card Component -------------------- */}
+            {/* ------------------------ edit form start ---------------------------- */}
+            {/* Main modal */}
+            {isOpen && (
+                 <EditForm
+                 toggleModal={toggleModal}
+                 />
+            )}
+            {/* -------------------------- end edit form----------------------------- */}
             </div>
             {/* ----------------------------End  of content------------------------------ */}
         </div>
