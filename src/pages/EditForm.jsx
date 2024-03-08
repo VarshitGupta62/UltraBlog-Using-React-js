@@ -1,21 +1,15 @@
-import { Link , useParams , useNavigate } from 'react-router-dom'
-import { Button , Input , Select } from '../components'
-import { useEffect , useState } from 'react';
+// import { Link , useParams , useNavigate } from 'react-router-dom'
+import { Button , Input , Select } from '../components';
+import { useEffect } from 'react';
 import databaseService from '../appwrite/database';
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 import React from 'react';
 
-function EditForm({toggleModal , post}) {
-    const {register, handleSubmit , watch, setValue } = useForm({
-        defaultValues:{
-          title: "",
-          slug: "",
-          content: "",
-          status:""
-        }
-      })
-    //   console.log(post);
-      console.log(post.image);
+function EditForm({toggleModal , post }) {
+    const {register , watch, setValue , getValues } = useForm()
+     
+      console.log(post);
+    //   console.log(post.image);
       useEffect(() => {
         setValue("title", post.title);  
         setValue("content", post.content);
@@ -36,16 +30,20 @@ function EditForm({toggleModal , post}) {
     
         React.useEffect(() => {
     
-          const watching = watch((value , { name }) => {
+          const watching = watch((value , { name  }) => {
             if (name === 'title') {
     
-              setValue( "slug",slugTransform(value.title))
+              setValue( "slug",slugTransform(value.title) ,  { shouldValidate: true })
               
             }
           })
     
           return () => watching.unsubscribe(); 
         }, [  watch , slugTransform , setValue]);
+
+        if (post.title) {
+            setValue("slug", slugTransform(post.title), { shouldValidate: true });
+        }
 
         const [imageUrl, setImageUrl] = React.useState(null);
         React.useEffect(() => {
@@ -61,15 +59,29 @@ function EditForm({toggleModal , post}) {
 
             fetchImage();
         }, [post.image , setValue]);
-        console.log(imageUrl);
+        // console.log(imageUrl);
+
+        const editData = () => {
+            try {
+                console.log(getValues());
+                toggleModal();
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        }
+
+        // const onSubmit = (data) => {
+        //     console.log("this is data" , data );
+        //     toggleModal();
+        //   };
 
 
   return (
      <>
          <div id="crud-modal" className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-gray-900 bg-opacity-50">
-                <div className="relative p-4 w-full max-w-md">
+                <div className="relative p-4 w-full max-w-xl">
                     {/* Modal content */}
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relative  bg-white rounded-lg shadow dark:bg-gray-700">
                     {/* Modal header */}
                     <div className="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -99,7 +111,7 @@ function EditForm({toggleModal , post}) {
                         </button>
                     </div>
                     {/* Modal body */}
-                    <form onSubmit={''} className="p-4">
+                    <form onSubmit={editData} className="p-4">
                         <div className="grid gap-4 mb-4 grid-cols-2">
                         <div className="col-span-2">
                             <Input
@@ -118,7 +130,7 @@ function EditForm({toggleModal , post}) {
                                 placeholder="Slug"
                                 inputClass="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 {...register("slug" ,{ required: true})}
-                                onChange={(e) => {
+                                 onInput={(e) => {
                                     setValue("slug", slugTransform(e.target.value));
                                 }}
                             />
@@ -133,6 +145,7 @@ function EditForm({toggleModal , post}) {
                             />
                        </div>
                        <div class="col-span-2 sm:col-span-1">
+                            
                             <Select
                                 label="Status"
                                 options={[ "active", "inactive"]}
@@ -140,6 +153,7 @@ function EditForm({toggleModal , post}) {
                                 {...register("status" ,{ required: true})}
                             />
                         </div>
+                        
                         <div class="col-span-2">
                             <Input
                                 label= "Content"
@@ -151,10 +165,16 @@ function EditForm({toggleModal , post}) {
                         </div>
                         {/* Add other input fields */}
                         </div>
+                        <div className=' flex   justify-around ' >
+                        <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+                            <img className="mb-4  rounded-lg w-36 h-36 sm:mb-0 xl:mb-4 2xl:mb-0" src={imageUrl} alt="image not found"/>
+                        </div>
+                        </div>
                         <Button
+                            type="submit"
                             name='Submit' 
-                            type='submit'
                         />
+                        {/* <button type='submit' >Submit</button> */}
                     </form>
                     </div>
                 </div>

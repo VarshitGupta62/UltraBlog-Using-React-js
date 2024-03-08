@@ -17,8 +17,6 @@ function Post() {
                 if (data) {
                     // console.log(data);
                     setPost(data);
-                    // console.log("Post data : ",  data);
-                    // console.log("image " , databaseService.fileViewer(data.image));
                 }
                 else{
                     navigate("/")
