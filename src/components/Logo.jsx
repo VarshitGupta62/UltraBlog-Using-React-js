@@ -10,7 +10,7 @@ function Logo({
 {
   return (
      <>
-       <Link to={"/"} className={`${lname}`}>
+       <Link to={"/home"} className={`${lname}`}>
           <img src={logo} className={` mr-3  h-8${iname}`} alt="FlowBite Logo" /> 
           <span className={`self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white ${sname}`}>Z-Tube</span>
         </Link> 

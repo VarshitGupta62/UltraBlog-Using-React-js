@@ -30,7 +30,7 @@ function Login() {
                     dispatch(authLogin(userData))
                 }
                 setLoader(false)
-                navigate("/")
+                navigate("/home")
 
                 
             } else {

@@ -10,7 +10,7 @@ import LogoutBtn from "./LogoutBtn";
 import PostForm from "./post-form/PostForm";
 import Select from "./Select";
 import PostCard from "./PostCard";
-
+import AuthLayout from "./AuthLayout";
 
 
 export  {
@@ -25,5 +25,6 @@ export  {
     LogoutBtn,
     PostForm,
     Select,
-    PostCard
+    PostCard,
+    AuthLayout
 };
