@@ -44,6 +44,7 @@ Install my-project with npm
   cd my-project
   npm i react-router-dom
   npm install react-redux
+  npm i @reduxjs/toolkit
   npm install react-hook-form
   npm i appwrite
 
