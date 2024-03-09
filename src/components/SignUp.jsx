@@ -11,7 +11,7 @@ function SignUp() {
     const navigate = useNavigate();
 
     const create = async(data) => {
-        console.log(data);
+        // console.log(data);
         setError("")
         try {
 

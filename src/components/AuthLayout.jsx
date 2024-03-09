@@ -15,7 +15,7 @@ function AuthLayout({ children }) {
         }
     }, [authStatus, navigate]);
 
-    // Return children directly without wrapping in an object
+    // Return children directly when the user is authenticated or show a login
     return (
         <>
             {children}

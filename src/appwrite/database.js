@@ -34,7 +34,7 @@ export class DatabaseService{
             console.log("Appwrite Database :: create post :: ",error);
         }
     }
-
+    // file related service
     async uploadFile(file){
         try {
 
@@ -98,7 +98,7 @@ export class DatabaseService{
         }
     }
 
-
+    // file related service
     async fileViewer(fileId){
 
         try {
@@ -145,7 +145,7 @@ export class DatabaseService{
             console.log("Delete Post Error :: appwrite :: ", error);   
         }
     }
-
+    // file related service
     async deleteFile(fileID){
         try {
 
