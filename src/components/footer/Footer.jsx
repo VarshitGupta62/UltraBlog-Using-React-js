@@ -40,7 +40,7 @@ function Footer() {
         </div>
      </footer>
     <p className="my-10 text-sm text-center text-gray-500">
-        &copy; 2019 <a href="{{ .Site.Params.homepage }}" className="hover:underline" target="_blank">Flowbite.com</a>. All rights reserved.
+        &copy; 2024 <a href="{{ .Site.Params.homepage }}" className="hover:underline" target="_blank">Z-tube.com</a>. All rights reserved.
     </p>
      </>
   )

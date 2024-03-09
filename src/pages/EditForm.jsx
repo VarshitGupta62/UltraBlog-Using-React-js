@@ -4,16 +4,19 @@ import { useEffect } from 'react';
 import databaseService from '../appwrite/database';
 import { useForm } from 'react-hook-form';
 import React from 'react';
+import { useNavigate} from 'react-router-dom'
 
-function EditForm({toggleModal , post }) {
+function EditForm({toggleModal , post , alldata }) {
+    const navigate = useNavigate()
     const {register , watch, setValue , getValues } = useForm()
      
-      console.log(post);
+      console.log("post",post);
     //   console.log(post.image);
       useEffect(() => {
         setValue("title", post.title);  
         setValue("content", post.content);
         setValue("status", post.status);
+        setValue("image" , post.image) 
     }, [post.title, setValue]);
 
     const slugTransform = React.useCallback((value) => {
@@ -45,6 +48,10 @@ function EditForm({toggleModal , post }) {
             setValue("slug", slugTransform(post.title), { shouldValidate: true });
         }
 
+        // if(post.image){
+        //     setValue("image" )
+        // }
+
         const [imageUrl, setImageUrl] = React.useState(null);
         React.useEffect(() => {
             const fetchImage = async () => {
@@ -61,20 +68,21 @@ function EditForm({toggleModal , post }) {
         }, [post.image , setValue]);
         // console.log(imageUrl);
 
-        const editData = () => {
+        const editData = async() => {
             try {
-                console.log(getValues());
-                toggleModal();
+                const data = getValues();
+                if ( data) {
+                    console.log("edit data",data);
+                    alldata(data);
+
+                    toggleModal();
+                }
             } catch (error) {
                 console.error('Error submitting form:', error);
             }
         }
 
-        // const onSubmit = (data) => {
-        //     console.log("this is data" , data );
-        //     toggleModal();
-        //   };
-
+         
 
   return (
      <>

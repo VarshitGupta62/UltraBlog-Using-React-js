@@ -8,7 +8,7 @@ function AuthLayout({ children }) {
 
     React.useEffect(() => {
         if (authStatus === true) {
-            navigate("/");
+            navigate("/home");
         }
         else  if (authStatus === false) {
             navigate("/login");

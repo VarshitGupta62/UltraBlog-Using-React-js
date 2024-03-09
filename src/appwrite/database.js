@@ -43,6 +43,7 @@ export class DatabaseService{
                 ID.unique(),
                 file
             )
+            // return true
             
         } catch (error) {
 
@@ -66,6 +67,37 @@ export class DatabaseService{
             
         }
     }
+
+    async getYourPosts(filter = [Query.equal( 'status' , 'active')]) {
+        try {
+             return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                filter
+            )
+        } catch (error) {
+            console.log("Error fetching your posts:", error);
+            throw error; // Rethrow the error to propagate it to the caller
+        }
+    }
+    
+
+    async getInactivePosts(filter = [Query.equal( 'status' , 'inactive')]){
+        try {
+
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                filter
+            )
+
+        } catch (error) {
+
+            console.log( "Get posts error" , error );
+            
+        }
+    }
+
 
     async fileViewer(fileId){
 
@@ -95,6 +127,53 @@ export class DatabaseService{
             
         } catch (error) {
             console.log( "Error one post: ", error);
+        }
+    }
+
+    async deletePost(data){
+        try {
+
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId, 
+                conf.appwriteCollectionId, 
+                data
+            )
+            return true
+            
+        } 
+         catch (error) {
+            console.log("Delete Post Error :: appwrite :: ", error);   
+        }
+    }
+
+    async deleteFile(fileID){
+        try {
+
+            await this.bucket.deleteFile(
+                conf.appwriteBucketId,
+                fileID
+            )
+            return true
+        } catch (error) {
+            console.log( "Error deleting file :: AppWrite", error );
+        }
+    }
+
+    async updatePost( slug , {title , content , image , status}){
+
+        try {
+
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId, 
+                conf.appwriteCollectionId, 
+                 slug ,
+                {title , content , image , status}
+            )
+            
+        } catch (error) {
+
+            console.log( "Update Post Error :: ", error);
+            
         }
     }
 

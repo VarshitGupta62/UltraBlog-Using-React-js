@@ -8,13 +8,18 @@ function AllPost() {
   const [posts, setPosts] = useState([])
   console.log(posts);
 
-  useEffect(() => {
-    databaseService.getPosts().then((data) => {
-      if (data) {
-        setPosts(data.documents)
-      }
-    })
-  }, [])
+  useEffect( () => {
+    // Fetch posts when the component mounts
+    databaseService.getYourPosts()
+      .then((data) => {
+        if (data) {
+          setPosts(data.documents);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error);
+      });
+  }, []); //
 
   return (
      <>

@@ -19,7 +19,7 @@ function LogoutBtn() {
         })
         setLoader(false)
         console.log("you are logout ");
-        navigate("/home");
+        navigate("/");
 
     }
 
