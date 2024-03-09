@@ -45,7 +45,7 @@ function Home() {
               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
             </svg>
             <span className="sr-only">Info</span>
-            <h3 className="text-lg font-medium">Please Login and Add your post.</h3>
+            <h3 className="text-lg font-medium">Please Add your post.</h3>
           </div>
           <div className="mt-2 mb-4 text-sm">
           Secure your account with a strong password. Remember to use a mix of letters, numbers, and symbols. Avoid sharing your login details with anyone.
