@@ -7,6 +7,8 @@ Welcome to UltraBlog, your go-to destination for dynamic blogging experiences! U
 - React Router
 - React Redux
 - React Hook Form
+- Tailwind CSS
+- Appwrite (Backend)
 
 ## Screenshots
 
@@ -43,6 +45,10 @@ Install my-project with npm
   npm i react-router-dom
   npm install react-redux
   npm install react-hook-form
+  npm i appwrite
+
+  npm install -D tailwindcss postcss autoprefixer
+  npx tailwindcss init -p
   
 ```
 
