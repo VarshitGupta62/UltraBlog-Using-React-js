@@ -7,7 +7,6 @@ function Home() {
    
   const [posts, setPosts] = useState([])
   // console.log(posts);
-
   useEffect(() => {
     databaseService.getPosts().then((data) => {
       if (data) {

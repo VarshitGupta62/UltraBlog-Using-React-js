@@ -57,6 +57,7 @@ Install my-project with npm
 - Authentication
 - CRUD Functionality
 - Active and Inactive Post Management
+- **Slug Generation:** UltraBlog automatically generates slugs for each post based on the title. Slugs consist of lowercase text and dashes .
 
 
 ## Conclusion
