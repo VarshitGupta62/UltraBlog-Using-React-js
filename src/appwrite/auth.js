@@ -30,7 +30,10 @@ export class AuthService{
             }
             
         } catch (error) {
-            console.log("Appwrite Service ::  SignUp :: error ",error);
+             
+            console.log("Appwrite Service ::  SignUp :: error ", error);
+            return   false;
+             
         }
     }
 
