@@ -8,7 +8,7 @@ function Logo({
               sname = "" 
 }) 
 {
-  return (
+  return (   
      <>
        <Link to={"/"} className={`${lname}`}>
           <img src={logo} className={` mr-3  h-8${iname}`} alt="FlowBite Logo" /> 
